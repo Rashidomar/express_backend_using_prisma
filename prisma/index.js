@@ -2,37 +2,21 @@ const {PrismaClient} = require("@prisma/client")
 
 const prisma = new PrismaClient()
 
-const userData = [
-    {
-      name: 'Alice',
-      email: 'alice@prisma.io',
-
-    },
-    {
-      name: 'Nilu',
-      email: 'nilu@prisma.io',
-
-    },
-    {
-      name: 'Mahmoud',
-      email: 'mahmoud@prisma.io',
-    },
-  ]
-  
-
 async function main() {
   // ... you will write your Prisma Client queries here
-//   for(const u of  userData){
-//     const user = await prisma.user.create({
-//         data: u
-//     })
-//     console.log(user)
-//   }
-  // const allUsers = await prisma.user.findMany()
+ 
+    // const user = await prisma.user.create({
+    //     data: {
+    //       email:"test@email.com",
+    //       username: "test",
+    //       password:"1234"
+    //     }
+    // })
+    // console.log(user)
+
   // const users = await prisma.user.deleteMany()
-  // console.log(users)
 
-
+  // const allUsers = await prisma.user.findMany()
   // console.log(allUsers)
 }
 

@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
+const { createToken } = require("../middleware/auth")
 
 
 const login  = async (req, res) =>{
@@ -20,9 +21,12 @@ const login  = async (req, res) =>{
         console.log(foundEmail)
 
         if(foundEmail && (await bcrypt.compare(password, foundEmail.password))){
+            const token = createToken(foundEmail.id)
             return res.json({
                 "Message":"Successful",
                 "newUser": foundEmail,
+                "token": token
+
             })
 
         }else{
@@ -34,7 +38,6 @@ const login  = async (req, res) =>{
         console.log(e)
     }
 
-    // res.json("This is the login page")
 }
 
 const signup = async (req, res) =>{
@@ -66,8 +69,6 @@ const signup = async (req, res) =>{
                 password:encryptedPassword
             }
         })
-
-        console.log(newUser)
 
         if(newUser){
             return res.json({

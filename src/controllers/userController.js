@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
-const { createToken } = require("../middleware/auth")
+const { createToken, verifyToken } = require("../middleware/auth")
 
 
 const login  = async (req, res) =>{
@@ -18,13 +18,10 @@ const login  = async (req, res) =>{
             }
         })
 
-        console.log(foundEmail)
-
         if(foundEmail && (await bcrypt.compare(password, foundEmail.password))){
-            const token = createToken(foundEmail.id)
+            const token = createToken(foundEmail.username)
             return res.json({
                 "Message":"Successful",
-                "newUser": foundEmail,
                 "token": token
 
             })
@@ -73,7 +70,6 @@ const signup = async (req, res) =>{
         if(newUser){
             return res.json({
                 "Message":"Successful",
-                "newUser": newUser,
             })
         }else{
             res.status(400).json("Error occured.. Try again")
@@ -85,7 +81,12 @@ const signup = async (req, res) =>{
      }
 }
 
-const userController = {login, signup}
+const verify = (req, res, )=>{
+    // console.log(res)
+    res.json("welcome")
+}
+
+const userController = {login, signup, verify}
 
 module.exports = userController
 

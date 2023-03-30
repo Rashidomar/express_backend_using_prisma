@@ -1,9 +1,12 @@
 const jwt = require("jsonwebtoken")
 
-const createToken = (user_id)=>{
+const createToken = (username)=>{
     const token = jwt.sign(
-        { user_id: user_id},
-        'supersecret',
+        { 
+            username: username,
+
+        },
+        process.env.PRIVATE_KEY,
         {
           expiresIn: "2h",
         }
@@ -19,14 +22,14 @@ const verifyToken = (req, res, next)=>{
     const token = authHeader.split(" ")[1]
 
     if(!token){
-       return res.json({ auth: false, message: 'No token provided.' })
+       return res.json({auth: false, message: 'No token provided.'})
     }
     try{
-        jwt.verify(token, 'supersecret', (error, decoded)=>{
+        jwt.verify(token, process.env.PRIVATE_KEY, (error, decoded)=>{
             if(error){
-                return res.json({ auth: false, message: 'Failed to authenticate token.' })
+                return res.json({ auth:false, message:'Failed to authenticate token.' })
             }else{
-                return res.json({ auth: true, message: 'Authenticated Successfilly.', data: decoded })
+                return res.json({ auth:true, message:'Authenticated Successfully.', data:decoded })
             }
 
         })
